@@ -1,0 +1,69 @@
+services:
+  # ============================================
+  # MQTT Broker (Indépendant)
+  # ============================================
+  mqtt-broker:
+    image: eclipse-mosquitto:2.0
+    container_name: iot-station-broker
+    restart: unless-stopped
+    ports:
+      - "1884:1883"  # Port TCP externe (différent de Yuho)
+      - "9002:9001"  # Port WebSocket externe (différent de Yuho)
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - iot-network
+
+  # ============================================
+  # MongoDB - Historique 24h
+  # ============================================
+  mongodb:
+    image: mongo:4.4
+    container_name: iot-station-mongodb
+    restart: unless-stopped
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - iot-network
+
+  # ============================================
+  # Backend Django ASGI - API, Dashboard, WebSockets, MQTT Bridge
+  # ============================================
+  backend:
+    build: ./backend
+    container_name: iot-station-backend
+    restart: unless-stopped
+    ports:
+      - "8095:8000"
+    command: >
+      sh -c "python manage.py collectstatic --noinput &&
+             daphne -b 0.0.0.0 -p 8000 iot_station.asgi:application"
+    volumes:
+      - ./backend:/app
+    environment:
+      - DJANGO_SETTINGS_MODULE=iot_station.settings
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,192.168.1.96,iot.youcloud.ovh
+      - DJANGO_CSRF_TRUSTED_ORIGINS=https://iot.youcloud.ovh
+      - MONGODB_URI=mongodb://mongodb:27017/station_iot
+      - ENABLE_MQTT_BRIDGE=1
+      - MQTT_HOST=mqtt-broker
+      - MQTT_PORT=1883
+      - MQTT_TOPIC=station/plantes/data
+      - DEFAULT_STATION_ID=adi_4
+    networks:
+      - iot-network
+    depends_on:
+      - mqtt-broker
+      - mongodb
+
+# ============================================
+# Réseau
+# ============================================
+networks:
+  iot-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Station Plante IoT</title>
+  <style>{{ inline_css|safe }}</style>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
+
+</head>
+<body data-station-id="{{ station_id }}">
+  <main class="shell" hx-ext="ws" ws-connect="/ws/station/">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">Groupe 4</p>
+        <h1>Station Plante</h1>
+      </div>
+      <div class="status-cluster">
+        <div id="station-status" class="status-pill station-{% if freshness %}{{ freshness.status }}{% else %}offline{% endif %}">
+          <span></span>
+          <strong>{% if freshness %}{{ freshness.label }}{% else %}Station inactive{% endif %}</strong>
+          <small>{% if freshness %}{{ freshness.detail }}{% else %}Aucune lecture{% endif %}</small>
+        </div>
+      </div>
+    </header>
+
+    <section class="dashboard-grid">
+      {% if latest %}
+        {% include "dashboard/partials/current_state.html" %}
+      {% else %}
+        {% include "dashboard/partials/empty_state.html" %}
+      {% endif %}
+    </section>
+
+    <section class="history-panel">
+      <div class="panel-title">
+        <div>
+          <p class="eyebrow">Historique</p>
+          <h2 id="timeline-title">Journal de ma plante - 4h</h2>
+        </div>
+        <div class="history-toolbar">
+          <label for="timeline-range" class="sr-only">Période d'historique</label>
+          <select id="timeline-range" class="timeline-range" aria-label="Choisir une période d'historique">
+            <option value="10m">10 min</option>
+            <option value="1h">1 h</option>
+            <option value="4h" selected>4 h</option>
+            <option value="1d">1 j</option>
+          </select>
+          <span id="last-reading-time" class="muted">{% if latest %}{{ latest.timestamp|date:"H:i:s" }}{% else %}En attente{% endif %}</span>
+        </div>
+      </div>
+      <div class="timeline-meta">
+        <div id="timeline-alert" class="timeline-alert">Analyse de l'historique en cours...</div>
+        <div class="timeline-legend" aria-label="Légende des statuts">
+          <span><i class="legend-dot legend-ok"></i> Stable</span>
+          <span><i class="legend-dot legend-warn"></i> Alerte</span>
+          <span><i class="legend-dot legend-bad"></i> Critique</span>
+          <span><i class="legend-dot legend-empty"></i> Sans donnée</span>
+        </div>
+      </div>
+      <p id="timeline-detail" class="timeline-detail muted"></p>
+      <div class="timeline-wrap">
+        <canvas id="health-timeline" aria-label="Timeline santé de la plante"></canvas>
+        <div id="timeline-tooltip" class="timeline-tooltip" hidden></div>
+      </div>
+    </section>
+  </main>
+
+  <script>{{ inline_js|safe }}</script>
+</body>
+</html>

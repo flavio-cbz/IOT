@@ -1,0 +1,30 @@
+# OS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+*.egg-info/
+
+# Django
+*.log
+db.sqlite3
+staticfiles/
+
+# PlatformIO
+.pio/
+
+# IDE
+.vscode/
+.idea/
+
+# Node (legacy)
+node_modules/
+
+CLAUDE.md
+.claude

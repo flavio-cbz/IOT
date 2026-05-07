@@ -1,0 +1,70 @@
+<div class="plant-stage" style="--accent: {{ state.accent }}">
+  <div class="plant-scene {{ state.class }}">
+    <svg viewBox="0 0 520 360" role="img" aria-label="Plante - {{ state.mood }}">
+      <defs>
+        <linearGradient id="skyGradient{{ reading.problem_code }}" x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0%" stop-color="#102a31"/>
+          <stop offset="58%" stop-color="#172033"/>
+          <stop offset="100%" stop-color="#090c16"/>
+        </linearGradient>
+        <linearGradient id="soilGradient{{ reading.problem_code }}" x1="0" x2="1">
+          <stop offset="0%" stop-color="#5b3a26"/>
+          <stop offset="100%" stop-color="#2f1f16"/>
+        </linearGradient>
+      </defs>
+
+      <rect class="scene-sky" x="0" y="0" width="520" height="360" rx="28" fill="url(#skyGradient{{ reading.problem_code }})"/>
+      <circle class="sun" cx="426" cy="72" r="34"/>
+      <g class="shade">
+        <path d="M0 0 H520 V360 H0 Z"/>
+      </g>
+
+      <g class="heat-lines">
+        <path d="M84 94 C66 122 106 144 86 174"/>
+        <path d="M444 116 C424 146 466 168 446 204"/>
+        <path d="M378 44 C362 70 396 92 382 118"/>
+      </g>
+
+      <g class="frost">
+        <path d="M82 92 L112 122 M112 92 L82 122 M97 82 V132"/>
+        <path d="M420 134 L452 166 M452 134 L420 166 M436 124 V176"/>
+      </g>
+
+      <ellipse class="ground-shadow" cx="260" cy="306" rx="170" ry="26"/>
+      <path class="soil" d="M76 290 C138 256 206 264 260 270 C326 278 392 250 452 290 C408 326 342 338 260 338 C176 338 112 326 76 290Z" fill="url(#soilGradient{{ reading.problem_code }})"/>
+      <g class="soil-cracks">
+        <path d="M146 294 L172 304 L160 316"/>
+        <path d="M244 286 L232 304 L250 318 L238 330"/>
+        <path d="M344 292 L324 306 L342 320"/>
+      </g>
+      <g class="puddle">
+        <ellipse cx="260" cy="316" rx="132" ry="18"/>
+        <ellipse cx="188" cy="296" rx="36" ry="8"/>
+        <ellipse cx="352" cy="300" rx="44" ry="9"/>
+      </g>
+
+      <g class="plant-body">
+        <path class="stem stem-main" d="M260 286 C260 238 260 198 260 148"/>
+        <path class="stem stem-left" d="M260 226 C226 206 204 184 184 154"/>
+        <path class="stem stem-right" d="M260 210 C298 190 322 166 340 132"/>
+
+        <ellipse class="leaf leaf-left-a" cx="176" cy="146" rx="54" ry="28" transform="rotate(-28 176 146)"/>
+        <ellipse class="leaf leaf-left-b" cx="218" cy="190" rx="46" ry="24" transform="rotate(-18 218 190)"/>
+        <ellipse class="leaf leaf-right-a" cx="350" cy="128" rx="58" ry="30" transform="rotate(-18 350 128)"/>
+        <ellipse class="leaf leaf-right-b" cx="306" cy="184" rx="48" ry="25" transform="rotate(22 306 184)"/>
+        <ellipse class="leaf leaf-top" cx="262" cy="118" rx="45" ry="30" transform="rotate(-8 262 118)"/>
+        <circle class="face" cx="262" cy="122" r="30"/>
+        <circle class="eye eye-left" cx="252" cy="116" r="3.5"/>
+        <circle class="eye eye-right" cx="274" cy="116" r="3.5"/>
+        <path class="mouth mouth-happy" d="M252 130 C258 138 270 138 276 130"/>
+        <path class="mouth mouth-sad" d="M252 134 C258 128 270 128 276 134"/>
+        <path class="mouth mouth-flat" d="M252 134 H276"/>
+      </g>
+
+      <g class="droplets">
+        <path d="M146 84 C146 84 132 104 132 116 C132 126 138 134 146 134 C154 134 160 126 160 116 C160 104 146 84 146 84Z"/>
+        <path d="M384 80 C384 80 370 100 370 112 C370 122 376 130 384 130 C392 130 398 122 398 112 C398 100 384 80 384 80Z"/>
+      </g>
+    </svg>
+  </div>
+</div>

@@ -1,0 +1,52 @@
+<aside id="diagnostic-panel" class="diagnostic-panel" hx-swap-oob="outerHTML">
+  <section class="diagnostic-card glass">
+    <div class="panel-heading">
+      <div>
+        <div class="eyebrow-with-info">
+          <p class="eyebrow">Vitalite</p>
+          <span class="info-help" title="Vitalité (1-5 étoiles) : mesure la santé globale de la plante.&#10;5 étoiles = Parfait&#10;4 = Stable&#10;3 = Fragile (attention aux conditions)&#10;2 = En stress (problème détecté)&#10;1 = Critique (action urgente requise)&#10;&#10;Risques bas vitalité : feuilles jaunes, croissance lente, sensibilité aux maladies.">?</span>
+        </div>
+        <h2>{{ vitality.label }}</h2>
+      </div>
+      <div class="vitality vitality-{{ vitality.tone }}">
+        {% for segment in vitality.segments %}
+          <span class="{% if segment.filled %}filled{% endif %}"></span>
+        {% endfor %}
+      </div>
+    </div>
+    <p class="muted">{{ state.hint }}</p>
+  </section>
+
+  <section class="gauge-list">
+    {% for gauge in gauges %}
+      <article class="gauge-card glass gauge-{{ gauge.tone }}{% if gauge.selected %} is-selected{% endif %}">
+        <div class="gauge-topline">
+          <div>
+            <div style="display: flex; align-items: center; gap: 6px;">
+              <p>{{ gauge.name }}</p>
+              {% if gauge.key == 'soil' %}
+                <span class="info-help" title="Trop sec : racines dessèchent&#10;Trop humide : pourriture, maladies">?</span>
+              {% elif gauge.key == 'light' %}
+                <span class="info-help" title="Trop faible : étiolement, pales&#10;Trop forte : brûlures foliaires">?</span>
+              {% elif gauge.key == 'temperature' %}
+                <span class="info-help" title="Trop froid : croissance ralentie&#10;Trop chaud : stress, transpiration">?</span>
+              {% elif gauge.key == 'pressure' %}
+                <span class="info-help" title="Écarts importants : stress hydrique">?</span>
+              {% endif %}
+            </div>
+            <strong>{{ gauge.label }}</strong>
+          </div>
+          <span>{{ gauge.value }} {{ gauge.unit }}</span>
+        </div>
+        <div class="gauge-track" style="--value: {{ gauge.percent }}%">
+          <i></i>
+        </div>
+        <div class="gauge-scale">
+          <span>{{ gauge.low_label }}</span>
+          <span>{{ gauge.mid_label }}</span>
+          <span>{{ gauge.high_label }}</span>
+        </div>
+      </article>
+    {% endfor %}
+  </section>
+</aside>

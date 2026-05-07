@@ -1,0 +1,24 @@
+{% include "dashboard/partials/diagnostic_panel.html" %}
+
+<div id="station-status" class="status-pill station-{{ freshness.status }}" hx-swap-oob="outerHTML">
+  <span></span>
+  <strong>{{ freshness.label }}</strong>
+  <small>{{ freshness.detail }}</small>
+</div>
+
+<span id="last-reading-time" class="muted" hx-swap-oob="outerHTML">{{ reading.timestamp|date:"H:i:s" }}</span>
+
+<div id="live-payload" class="sr-only" hx-swap-oob="outerHTML" data-reading="{{ payload_json }}"></div>
+
+<h2 id="scene-mood" hx-swap-oob="outerHTML">{{ state.mood }}</h2>
+
+<div id="scene-vitality" class="vitality vitality-{{ vitality.tone }}" aria-label="Vitalite {{ vitality.label }}" hx-swap-oob="outerHTML">
+  {% for segment in vitality.segments %}
+    <span class="{% if segment.filled %}filled{% endif %}"></span>
+  {% endfor %}
+</div>
+
+<div id="scene-caption" class="scene-caption" hx-swap-oob="outerHTML">
+  <strong>{{ state.label }}</strong>
+  <span>{{ state.hint }}</span>
+</div>
