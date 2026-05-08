@@ -54,6 +54,9 @@ Notre **station de monitoring open-source** est conçue pour vous donner une vis
 
 - **Un écran OLED embarqué** avec des animations : votre plante sourit quand elle est heureuse, elle vous supplie quand elle a soif.
 - **Un dashboard web moderne**, accessible depuis n'importe quel appareil (mobile, tablette, PC), avec mode sombre et historique des données.
+
+<img width="650" height="748" alt="image" src="https://github.com/user-attachments/assets/edb716d6-7b51-43cc-9e31-87dd04622f57" />
+
 - **Des alertes en temps réel** — sans rafraîchissement manuel.
 
 ---
